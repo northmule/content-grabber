@@ -56,11 +56,10 @@ class ContainerUnit implements
 
     /**
      * {@inheritDoc}
-     * @template T of object
+     * @template T
      * @param class-string<T> $id
      * @return T
      * @throws \Exception
-     * @phpstan-return T
      */
     public function get(string $id): object
     {

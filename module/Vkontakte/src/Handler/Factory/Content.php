@@ -6,7 +6,6 @@ namespace Coderun\Vkontakte\Handler\Factory;
 
 use Coderun\Vkontakte\ModuleOptions;
 use Coderun\Vkontakte\Service\ReceiveContent;
-use Coderun\Vkontakte\ValueObject\Authorization;
 use Psr\Container\ContainerInterface;
 use Coderun\Vkontakte\Handler\Content as ContentHandler;
 

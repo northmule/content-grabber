@@ -12,8 +12,8 @@ namespace Coderun\Contracts\Vk;
 class Attachment
 {
     protected string $type;
-    protected Photo $photo;
-    protected Link $link;
+    protected ?Photo $photo = null;
+    protected ?Link $link = null;
 
     /**
      * Get type
@@ -35,13 +35,13 @@ class Attachment
         $this->type = $type;
         return $this;
     }
-
+    
     /**
      * Get photo
      *
-     * @return Photo
+     * @return Photo|null
      */
-    public function getPhoto(): Photo
+    public function getPhoto(): ?Photo
     {
         return $this->photo;
     }
@@ -56,13 +56,13 @@ class Attachment
         $this->photo = $photo;
         return $this;
     }
-
+    
     /**
      * Get link
      *
-     * @return Link
+     * @return Link|null
      */
-    public function getLink(): Link
+    public function getLink(): ?Link
     {
         return $this->link;
     }

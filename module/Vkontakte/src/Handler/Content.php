@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\Handler;
 
+use Coderun\Vkontakte\Collection\ResponseMap;
 use Coderun\Vkontakte\Options\Options;
 use Coderun\Vkontakte\Service\ReceiveContent;
-use Coderun\Vkontakte\ValueObject\Authorization;
-use Coderun\Common\ValueObject\Video;
 use Coderun\Vkontakte\ValueObject\WallGet;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use VK\Exceptions\Api\VKApiBlockedException;
+use VK\Exceptions\VKApiException;
+use VK\Exceptions\VKClientException;
 
 /**
  * Class Content
@@ -33,15 +36,25 @@ class Content
     }
 
 
-    public function get()
+    /**
+     * @throws VKApiBlockedException
+     * @throws VKApiException
+     * @throws ExceptionInterface
+     * @throws VKClientException
+     */
+    public function get(): ResponseMap
     {
-        $response = [];
+        $responseMap = new ResponseMap();
         foreach ($this->options->getDomains() as $domain) {
-            $response[] = $this->service->receive(new WallGet([
+            $responseMap->offsetSet($domain, $this->service->receive(new WallGet([
                 'domain' => $domain,
-            ]));
+            ])));
         }
-
-        return $response;
+        foreach ($this->options->getOwnerIds() as $ownerId) {
+            $responseMap->offsetSet($ownerId, $this->service->receive(new WallGet([
+                'owner_id' => $ownerId,
+            ])));
+        }
+        return $responseMap;
     }
 }

@@ -14,7 +14,6 @@
     "require": {
         "php": ">=8.1",
         "google/apiclient": "^2.7",
-        "symfony/http-client": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "vlucas/phpdotenv": "^5.5",
         "laminas/laminas-config-aggregator": "^1.9",
@@ -24,13 +23,25 @@
         "vkcom/vk-php-sdk": "^5.101",
         "symfony/serializer": "^5.4",
         "symfony/property-access": "^5.4",
-        "phpdocumentor/reflection-docblock": "^5.3"
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "ramsey/collection": "^2.0",
+        "guzzlehttp/guzzle": "^7.5",
+        "twig/twig": "^3.0",
+        "tmarois/filebase": "^1.0",
+        "doctrine/orm": "^2.11.0",
+        "doctrine/dbal": "^3.2",
+        "symfony/yaml": "^5.4",
+        "symfony/cache": "^5.4",
+        "doctrine/annotations": "^2.0",
+        "doctrine/migrations": "^3.6"
     },
     "autoload": {
         "psr-4": {
             "Coderun\\Container\\": "module/Container/src",
             "Coderun\\Vkontakte\\": "module/Vkontakte/src",
-            "Coderun\\Contracts\\": "module/Contracts/src"
+            "Coderun\\Contracts\\": "module/Contracts/src",
+            "Coderun\\WordPress\\": "module/WordPress/src",
+            "Coderun\\ORM\\": "module/ORM/src"
         }
     },
     "config": {

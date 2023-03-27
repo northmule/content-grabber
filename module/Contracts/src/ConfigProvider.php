@@ -10,7 +10,9 @@ namespace Coderun\Contracts;
 class ConfigProvider
 {
     /** @var string  */
-    public const CONFIG_KEY = 'contracts_config';
+    public const NAME = 'contracts';
+    /** @var string  */
+    public const CONFIG_KEY = 'config_' . self::NAME;
 
     /**
      * @return array<string, array<array<string>>>
@@ -18,19 +20,28 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
+            'dependencies'   => $this->getDependencies(),
+            self::CONFIG_KEY => $this->getConfig(),
         ];
     }
 
     /**
      * @return array<string, array<string,string>>
      */
-    public function getDependencies(): array
+    protected function getDependencies(): array
     {
         return [
             'invokables' => [],
             'reflection' => [],
             'factories'  => [],
         ];
+    }
+
+    /**
+     * @return array<string,string>
+     */
+    protected function getConfig(): array
+    {
+        return [];
     }
 }

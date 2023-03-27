@@ -1,0 +1,22 @@
+<!-- WordPress Entry Template -->
+<!-- Created: {{ create_date|date("d.m.Y H:i:s") }} -->
+{% if image_before_content is not empty %}
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large">
+    <img src="{{ image_before_content }}" alt=""/>
+</figure>
+<!-- /wp:image -->
+{% endif %}
+
+<!-- wp:html -->
+{{ post_content }}
+<!-- /wp:html -->
+
+{% if image_after_content is not empty %}
+<!-- wp:image {"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large">
+    <img src="{{ image_after_content }}" alt=""/>
+</figure>
+<!-- /wp:image -->
+{% endif %}
+<!-- Source code: https://github.com/northmule/content-grabber -->

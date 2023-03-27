@@ -386,4 +386,22 @@ class Photo implements AttachmentInterface
         $this->has_tags = $has_tags;
         return $this;
     }
+    
+    /**
+     * @return array<int, ImageSize
+     */
+    public function sortedSizeInDesOrder(): array
+    {
+        $sizes = $this->sizes;
+        usort(
+            $sizes,
+            static function(ImageSize $size1, ImageSize $size2): int {
+                if ($size1->getWidth() == $size2->getWidth()){
+                    return 0;
+                }
+                return $size1->getWidth() < $size2->getWidth() ? 1 : -1;
+            }
+        );
+        return $sizes;
+    }
 }

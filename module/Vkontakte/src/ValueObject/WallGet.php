@@ -31,7 +31,7 @@ class WallGet
         $this->ownerId = (string) ($params['owner_id'] ?? '');
         $this->domain = (string) ($params['domain'] ?? '');
         $this->offset = (string) ($params['offset'] ?? '0');
-        $this->count = (string) ($params['count'] ?? '100');
+        $this->count = (string) ($params['count'] ?? '5');
         $this->extended = (string) ($params['extended'] ?? '1');
         $this->fields = (string) ($params['fields'] ?? 'description');
     }

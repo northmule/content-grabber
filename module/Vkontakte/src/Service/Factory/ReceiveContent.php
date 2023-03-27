@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\Service\Factory;
 
-use Coderun\Vkontakte\Api\Request;
 use Coderun\Vkontakte\ModuleOptions;
 use Coderun\Vkontakte\Service\ReceiveContent as ReceiveContentService;
 use Psr\Container\ContainerInterface;

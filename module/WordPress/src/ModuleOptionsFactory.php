@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Coderun\Vkontakte;
+namespace Coderun\WordPress;
 
 use Psr\Container\ContainerInterface;
 
 /**
  * Class ModuleOptionsFactory
  *
- * @package Coderun\Vkontakte
+ * @package Coderun\WordPress
  */
 class ModuleOptionsFactory
 {

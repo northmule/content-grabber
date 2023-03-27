@@ -38,7 +38,8 @@ final class VkGrabber
     public function __invoke()
     {
         try {
-            $this->handler->get();
+            $result = $this->handler->get();
+            return;
         } catch (Throwable $e) {
             echo $e->getMessage();
         } finally {
