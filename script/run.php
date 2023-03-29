@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Забриает записи и передаёт их на сайт WP
+ */
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
@@ -41,10 +44,14 @@ final class GrabberRun
         $postEndpoint = $this->container->get(\Coderun\WordPress\Service\CreatePost::class);
         /** @var \Coderun\WordPress\Template\Post $templatePost */
         $templatePost = $this->container->get(\Coderun\WordPress\Template\Post::class);
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $entityManager = $this->container->get(\Doctrine\ORM\EntityManager::class);
+        /** @var \Coderun\ORM\Repository\Common $postRepository */
+        $postRepository = $entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
 
         try {
             /** @var Coderun\Contracts\Vk\Response\Response $itemMap */
-            foreach ($this->getVkResponseMap() as $itemMap) {
+            foreach ($this->getVkResponseMap() as $group => $itemMap) {
                 foreach ($itemMap->getItems() as $item) {
                     $param = new \Coderun\WordPress\ValueObject\Post([
                         'title' => mb_strimwidth($item->getText(), 0, 50, '...'),
@@ -55,8 +62,25 @@ final class GrabberRun
                     if (empty($param->getTitle())) {
                         continue;
                     }
+                    $countExist = $postRepository->count(
+                        [
+                            'source' => $group,
+                            'sourceItemId' => $item->getId(),
+                            'destination' => $options->getOptions()->getSite(),
+                        ]
+                    );
+                    if ($countExist !== 0) {
+                        continue;
+                    }
+                    $processedPost = new \Coderun\ORM\Entity\ProcessedPost();
+                    $processedPost->setSource((string)$group);
+                    $processedPost->setSourceItemId((string)$item->getId());
+                    $processedPost->setDestination($options->getOptions()->getSite());
+                    $entityManager->persist($processedPost);
+                    
                     $postEndpoint->create($param);
                 }
+                $entityManager->flush();
             }
             return;
         } catch (Throwable $e) {
