@@ -19,12 +19,11 @@ class BasicAuth implements AuthInterface
      * @var string
      */
     protected string $username;
-    
     /**
      * @var string
      */
     protected string $password;
-    
+
     /**
      * WpBasicAuth constructor.
      * @param string $username
@@ -35,7 +34,7 @@ class BasicAuth implements AuthInterface
         $this->username = $username;
         $this->password = $password;
     }
-    
+
     /**
      * {@inheritdoc}
      */

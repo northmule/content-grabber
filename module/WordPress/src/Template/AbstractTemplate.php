@@ -15,9 +15,8 @@ use Twig\Environment;
  */
 abstract class AbstractTemplate
 {
-    
     protected Environment $twig;
-    
+
     /**
      * @param Environment $twig
      */
@@ -25,14 +24,14 @@ abstract class AbstractTemplate
     {
         $this->twig = $twig;
     }
-    
+
     /**
      * @param PostContract $post
      *
      * @return mixed
      */
     abstract public function compose(PostContract $post): string;
-    
+
     /**
      * @return DateTime
      */

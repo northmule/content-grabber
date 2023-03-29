@@ -20,9 +20,8 @@ use function sprintf;
 class Client
 {
     protected AuthInterface $credentials;
-    
     protected HttpClient $httpClient;
-    
+
     /**
      * @param AuthInterface $credentials
      * @param HttpClient    $httpClient
@@ -32,7 +31,7 @@ class Client
         $this->credentials = $credentials;
         $this->httpClient = $httpClient;
     }
-    
+
     /**
      * @param string           $site
      * @param RequestInterface $request
@@ -43,13 +42,11 @@ class Client
     public function send(string $site, RequestInterface $request): ResponseInterface
     {
         $request = $this->credentials->addCredentials($request);
-    
+
         $request = $request->withUri(
             new Uri(sprintf('%s%s', $site, $request->getUri()))
         );
-        
+
         return $this->httpClient->send($request);
     }
-    
-    
 }

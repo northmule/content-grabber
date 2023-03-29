@@ -18,7 +18,7 @@ class CreatePost
 {
     protected EndpointPost $endpoint;
     protected ModuleOptions $options;
-    
+
     /**
      * @param EndpointPost  $endpoint
      * @param ModuleOptions $options
@@ -28,8 +28,8 @@ class CreatePost
         $this->endpoint = $endpoint;
         $this->options = $options;
     }
-    
-    
+
+
     /**
      * @return array<mixed>
      *

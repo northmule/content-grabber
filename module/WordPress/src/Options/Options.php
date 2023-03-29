@@ -23,8 +23,7 @@ class Options extends AbstractOptions
     protected array $categoryIds;
     protected array $templates;
     protected string $cachePath;
-    
-    
+
     /**
      * Get user
      *
@@ -34,7 +33,7 @@ class Options extends AbstractOptions
     {
         return $this->user;
     }
-    
+
     /**
      * Get password
      *
@@ -44,7 +43,7 @@ class Options extends AbstractOptions
     {
         return $this->password;
     }
-    
+
     /**
      * Get site
      *
@@ -54,7 +53,7 @@ class Options extends AbstractOptions
     {
         return $this->site;
     }
-    
+
     /**
      * Get categoryIds
      *
@@ -64,7 +63,7 @@ class Options extends AbstractOptions
     {
         return $this->categoryIds;
     }
-    
+
     /**
      * Get templates
      *
@@ -74,7 +73,7 @@ class Options extends AbstractOptions
     {
         return $this->templates;
     }
-    
+
     /**
      * Get cachePath
      *
@@ -84,8 +83,8 @@ class Options extends AbstractOptions
     {
         return $this->cachePath;
     }
-    
-    
+
+
     /**
      * @param string $user
      *
@@ -96,7 +95,7 @@ class Options extends AbstractOptions
         $this->user = $user;
         return $this;
     }
-    
+
     /**
      * @param string $password
      *
@@ -107,7 +106,7 @@ class Options extends AbstractOptions
         $this->password = $password;
         return $this;
     }
-    
+
     /**
      * @param string $site
      *
@@ -118,7 +117,7 @@ class Options extends AbstractOptions
         $this->site = $site;
         return $this;
     }
-    
+
     /**
      * @param string $categoryIds
      *
@@ -129,7 +128,7 @@ class Options extends AbstractOptions
         $this->categoryIds = explode(',', $categoryIds);
         return $this;
     }
-    
+
     /**
      * @param array $templates
      *
@@ -140,7 +139,7 @@ class Options extends AbstractOptions
         $this->templates = $templates;
         return $this;
     }
-    
+
     /**
      * @param string $cachePath
      *
@@ -151,7 +150,4 @@ class Options extends AbstractOptions
         $this->cachePath = $cachePath;
         return $this;
     }
-    
-    
-    
 }

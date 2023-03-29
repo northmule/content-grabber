@@ -22,7 +22,7 @@ class ConfigProvider
     public const NAME = 'wordpress';
     /** @var string  */
     public const CONFIG_KEY = 'config_' . self::NAME;
-    
+
     /**
      * @return array<string, array<array<string>>>
      */
@@ -33,7 +33,7 @@ class ConfigProvider
             self::CONFIG_KEY => $this->getConfig(),
         ];
     }
-    
+
     /**
      * @return array<string, array<string,string>>
      */
@@ -49,11 +49,11 @@ class ConfigProvider
                 ModuleOptions::class => ModuleOptionsFactory::class,
                 BasicAuth::class     => BasicAuthFactory::class,
                 HttpClient::class    => HttpClientFactory::class,
-                PostTemplate::class => PostTemplateFactory::class,
+                PostTemplate::class  => PostTemplateFactory::class,
             ],
         ];
     }
-    
+
     /**
      * @return array<string,string>
      */

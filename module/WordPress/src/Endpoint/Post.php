@@ -13,7 +13,7 @@ class Post extends AbstractEndpoint
 {
     /** @var string  */
     protected const URL = '/wp-json/wp/v2/posts';
-    
+
     /**
      * @return string
      */
@@ -21,5 +21,4 @@ class Post extends AbstractEndpoint
     {
         return self::URL;
     }
-    
 }

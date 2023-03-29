@@ -19,7 +19,7 @@ class Post
     protected string $content;
     protected string $status;
     protected array $categories;
-    
+
     /**
      * @param array<string, mixed> $data
      */
@@ -31,7 +31,7 @@ class Post
         $this->status = $data['status'] ?? 'draft';
         $this->categories = $data['categories'] ?? [];
     }
-    
+
     /**
      * @return array<string, mixed>
      */
@@ -44,8 +44,8 @@ class Post
         }
         return $params;
     }
-    
-    
+
+
     /**
      * Get guid
      *
@@ -55,7 +55,7 @@ class Post
     {
         return $this->guid;
     }
-    
+
     /**
      * Get title
      *
@@ -65,7 +65,7 @@ class Post
     {
         return $this->title;
     }
-    
+
     /**
      * Get content
      *
@@ -75,7 +75,7 @@ class Post
     {
         return $this->content;
     }
-    
+
     /**
      * Get status
      *
@@ -85,7 +85,7 @@ class Post
     {
         return $this->status;
     }
-    
+
     /**
      * Get categories
      *
@@ -95,7 +95,4 @@ class Post
     {
         return $this->categories;
     }
-    
-    
-    
 }

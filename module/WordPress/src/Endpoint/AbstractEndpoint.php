@@ -14,7 +14,6 @@ use function http_build_query;
 use function json_encode;
 use function str_starts_with;
 
-
 /**
  * Class AbstractEndpoint
  *
@@ -24,9 +23,8 @@ use function str_starts_with;
  */
 abstract class AbstractEndpoint
 {
-    
     protected Client $client;
-    
+
     /**
      * @param Client $client
      */
@@ -34,12 +32,12 @@ abstract class AbstractEndpoint
     {
         $this->client = $client;
     }
-    
+
     /**
      * @return string
      */
     abstract protected function getEndpoint(): string;
-    
+
     /**
      * @param string     $site
      * @param int|null   $id
@@ -51,25 +49,25 @@ abstract class AbstractEndpoint
     public function get(string $site, ?int $id = null, ?array $params = null)
     {
         $uri = $this->getEndpoint();
-        
+
         if ($id !== null) {
             $uri .= sprintf('/%s', $id);
         }
         if ($params !== null) {
             $uri .= sprintf('?%s', http_build_query($params));
         }
-        
+
         $request = new Request('GET', $uri);
-        
+
         $response = $this->client->send($site, $request);
-    
+
         if ($this->isValidResponse($response)) {
             return json_decode($response->getBody()->getContents(), true);
         }
-        
+
         throw new \RuntimeException('Unexpected response');
     }
-    
+
     /**
      * @param string $site
      * @param array  $data
@@ -80,25 +78,28 @@ abstract class AbstractEndpoint
     public function save(string $site, array $data)
     {
         $url = $this->getEndpoint();
-    
+
         if (isset($data['id'])) {
             $url .= sprintf('/%s', $data['id']);
             unset($data['id']);
         }
-        
+
         $request = new Request(
-            'POST', $url, ['Content-Type' => 'application/json'], json_encode($data)
+            'POST',
+            $url,
+            ['Content-Type' => 'application/json'],
+            json_encode($data)
         );
-        
+
         $response = $this->client->send($site, $request);
-        
+
         if ($this->isValidResponse($response)) {
             return json_decode($response->getBody()->getContents(), true);
         }
-        
+
         throw new \RuntimeException('Unexpected response');
     }
-    
+
     /**
      * @param ResponseInterface $response
      *
@@ -106,9 +107,11 @@ abstract class AbstractEndpoint
      */
     protected function isValidResponse(ResponseInterface $response): bool
     {
-        if ($response->hasHeader('Content-Type')
+        if (
+            $response->hasHeader('Content-Type')
             && str_starts_with(
-                $response->getHeader('Content-Type')[0] ?? '', 'application/json'
+                $response->getHeader('Content-Type')[0] ?? '',
+                'application/json'
             )
         ) {
             return true;

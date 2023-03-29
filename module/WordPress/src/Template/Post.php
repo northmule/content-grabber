@@ -17,7 +17,6 @@ use function count;
  */
 class Post extends AbstractTemplate
 {
- 
     /** @var string  */
     protected const TEMPLATE_NAME = 'post.twig';
     /** @var string  */
@@ -26,17 +25,16 @@ class Post extends AbstractTemplate
     protected const POST_CONTENT = 'post_content';
     /** @var string  */
     protected const IMAGE_AFTER_CONTENT = 'image_after_content';
-    
     protected const CREATE_DATE = 'create_date';
-    
+
     /**
      * @var array|int[]
      */
     protected array $indexOfPhotoInTemplate = [
         self::IMAGE_BEFORE_CONTENT => 0,
-        self::IMAGE_AFTER_CONTENT => 1,
+        self::IMAGE_AFTER_CONTENT  => 1,
     ];
-    
+
     /**
      * @param PostContract $post
      *
@@ -48,13 +46,13 @@ class Post extends AbstractTemplate
     public function compose(PostContract $post): string
     {
         return $this->twig->render(self::TEMPLATE_NAME, [
-            self::IMAGE_AFTER_CONTENT => $this->getImageAfterContent($post),
-            self::POST_CONTENT => $post->getText(),
+            self::IMAGE_AFTER_CONTENT  => $this->getImageAfterContent($post),
+            self::POST_CONTENT         => $post->getText(),
             self::IMAGE_BEFORE_CONTENT => $this->getImageBeforeContent($post),
-            self::CREATE_DATE => $this->getCreateDateTime(),
+            self::CREATE_DATE          => $this->getCreateDateTime(),
         ]);
     }
-    
+
     /**
      * @param PostContract $post
      *
@@ -62,17 +60,18 @@ class Post extends AbstractTemplate
      */
     protected function getImageBeforeContent(PostContract $post): ?string
     {
-        
         $sizes = $this->getLargerImageSize($this->indexOfPhotoInTemplate[self::IMAGE_BEFORE_CONTENT], $post);
-        
-        if (count($sizes) == 0
-            || !$sizes[0] instanceof ImageSize) {
+
+        if (
+            count($sizes) == 0
+            || !$sizes[0] instanceof ImageSize
+        ) {
             return null;
         }
-        
+
         return $sizes[0]->getUrl();
     }
-    
+
     /**
      * @param PostContract $post
      *
@@ -80,17 +79,18 @@ class Post extends AbstractTemplate
      */
     protected function getImageAfterContent(PostContract $post): ?string
     {
-        
         $sizes = $this->getLargerImageSize($this->indexOfPhotoInTemplate[self::IMAGE_AFTER_CONTENT], $post);
-        
-        if (count($sizes) == 0
-            || !$sizes[0] instanceof ImageSize) {
+
+        if (
+            count($sizes) == 0
+            || !$sizes[0] instanceof ImageSize
+        ) {
             return null;
         }
-        
+
         return $sizes[0]->getUrl();
     }
-    
+
     /**
      * @param int          $index
      * @param PostContract $post
@@ -109,13 +109,13 @@ class Post extends AbstractTemplate
                 $photo = $attachment->getPhoto();
                 break;
             }
-            
+
             $photoIndex++;
         }
         if (!$photo instanceof Photo) {
             return [];
         }
-        
+
         return $photo->sortedSizeInDesOrder();
     }
 }
