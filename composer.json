@@ -27,12 +27,8 @@
         "ramsey/collection": "^2.0",
         "guzzlehttp/guzzle": "^7.5",
         "twig/twig": "^3.0",
-        "tmarois/filebase": "^1.0",
-        "doctrine/orm": "^2.11.0",
-        "doctrine/dbal": "^3.2",
-        "symfony/yaml": "^5.4",
-        "symfony/cache": "^5.4",
-        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-orm-module": "^5.3",
+        "roave/psr-container-doctrine": "^3.9",
         "doctrine/migrations": "^3.6"
     },
     "autoload": {
