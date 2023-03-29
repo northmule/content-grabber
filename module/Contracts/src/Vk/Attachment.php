@@ -35,7 +35,7 @@ class Attachment
         $this->type = $type;
         return $this;
     }
-    
+
     /**
      * Get photo
      *
@@ -56,7 +56,7 @@ class Attachment
         $this->photo = $photo;
         return $this;
     }
-    
+
     /**
      * Get link
      *

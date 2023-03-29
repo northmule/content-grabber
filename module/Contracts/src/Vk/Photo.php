@@ -386,7 +386,7 @@ class Photo implements AttachmentInterface
         $this->has_tags = $has_tags;
         return $this;
     }
-    
+
     /**
      * @return array<int, ImageSize
      */
@@ -395,8 +395,8 @@ class Photo implements AttachmentInterface
         $sizes = $this->sizes;
         usort(
             $sizes,
-            static function(ImageSize $size1, ImageSize $size2): int {
-                if ($size1->getWidth() == $size2->getWidth()){
+            static function (ImageSize $size1, ImageSize $size2): int {
+                if ($size1->getWidth() == $size2->getWidth()) {
                     return 0;
                 }
                 return $size1->getWidth() < $size2->getWidth() ? 1 : -1;
