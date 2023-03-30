@@ -29,7 +29,7 @@ class Post implements ContractInterface
     protected int $replyOwnerId;
     protected int $replyPostId;
     protected int $friendsOnly;
-    protected int $can_pin;
+    protected int $canPin;
     /** @var array<int, Attachment> */
     protected array $attachments;
     /** @var array<int, Post */
@@ -321,25 +321,25 @@ class Post implements ContractInterface
         $this->friendsOnly = $friendsOnly;
         return $this;
     }
-
+    
     /**
-     * Get can_pin
+     * Get canPin
      *
      * @return int
      */
     public function getCanPin(): int
     {
-        return $this->can_pin;
+        return $this->canPin;
     }
-
+    
     /**
-     * @param int $can_pin
+     * @param int $canPin
      *
      * @return Post
      */
-    public function setCanPin(int $can_pin): Post
+    public function setCanPin(int $canPin): Post
     {
-        $this->can_pin = $can_pin;
+        $this->canPin = $canPin;
         return $this;
     }
 

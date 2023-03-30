@@ -1,22 +1,31 @@
+<!-- wp:html -->
 <!-- WordPress Entry Template -->
 <!-- Created: {{ create_date|date("d.m.Y H:i:s") }} -->
+<!-- /wp:html -->
 {% if image_before_content is not empty %}
-<!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large">
-    <img src="{{ image_before_content }}" alt=""/>
-</figure>
-<!-- /wp:image -->
+    <!-- wp:image {"sizeSlug":"large"} -->
+    <figure class="wp-block-image size-large">
+        <img src="{{ image_before_content }}" alt=""/>
+    </figure>
+    <!-- /wp:image -->
 {% endif %}
 
 <!-- wp:html -->
-{{ post_content }}
+<p>{{ post_content }}</p>
 <!-- /wp:html -->
 
-{% if image_after_content is not empty %}
-<!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large">
-    <img src="{{ image_after_content }}" alt=""/>
-</figure>
-<!-- /wp:image -->
+{% if post_url_original is not empty %}
+    <!-- wp:html -->
+    <p><a target="_blank" href="{{ post_url_original }}">Original link</a></p>
+    <!-- /wp:html -->
 {% endif %}
+{% if image_after_content is not empty %}
+    <!-- wp:image {"sizeSlug":"large"} -->
+    <figure class="wp-block-image size-large">
+        <img src="{{ image_after_content }}" alt=""/>
+    </figure>
+    <!-- /wp:image -->
+{% endif %}
+<!-- wp:html -->
 <!-- Source code: https://github.com/northmule/content-grabber -->
+<!-- /wp:html -->

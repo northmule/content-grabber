@@ -6,7 +6,6 @@ namespace Coderun\WordPress\Options;
 
 use Laminas\Stdlib\AbstractOptions;
 
-use function explode;
 
 /**
  * Class Options
@@ -23,6 +22,8 @@ class Options extends AbstractOptions
     protected array $categoryIds;
     protected array $templates;
     protected string $cachePath;
+    /** @var array<string, Strategy> */
+    protected array $strategys = [];
 
     /**
      * Get user
@@ -83,7 +84,16 @@ class Options extends AbstractOptions
     {
         return $this->cachePath;
     }
-
+    
+    /**
+     * Get strategys
+     *
+     * @return array<string, Strategy>
+     */
+    public function getStrategys(): array
+    {
+        return $this->strategys;
+    }
 
     /**
      * @param string $user
@@ -119,13 +129,13 @@ class Options extends AbstractOptions
     }
 
     /**
-     * @param string $categoryIds
+     * @param array $categoryIds
      *
      * @return Options
      */
-    protected function setCategoryIds(string $categoryIds): Options
+    protected function setCategoryIds(array $categoryIds): Options
     {
-        $this->categoryIds = explode(',', $categoryIds);
+        $this->categoryIds = $categoryIds;
         return $this;
     }
 
@@ -150,4 +160,21 @@ class Options extends AbstractOptions
         $this->cachePath = $cachePath;
         return $this;
     }
+    
+    /**
+     * @param array $strategys
+     *
+     * @return Options
+     */
+    protected function setStrategys(array $strategys): Options
+    {
+        foreach ($strategys as $strategy) {
+            $strategy = new Strategy($strategy);
+            $this->strategys[$strategy->getGroupVk()] = $strategy;
+        }
+        
+        return $this;
+    }
+    
+    
 }

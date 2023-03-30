@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\Service;
 
-use Coderun\Contracts\Vk\Response\Response;
+use Coderun\Contracts\Vk\Response\PostsResponse;
 use Coderun\Vkontakte\ValueObject\WallGet;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -38,17 +38,17 @@ class ReceiveContent
     /**
      * @param WallGet $params
      *
-     * @return Response
+     * @return PostsResponse
      * @throws VKApiBlockedException
      * @throws VKApiException
      * @throws VKClientException|ExceptionInterface
      */
-    public function receive(WallGet $params): Response
+    public function receive(WallGet $params): PostsResponse
     {
         $response = $this->client->wall()->get($this->accessToken, $params->toArray());
         return $this->serializer->denormalize(
             $response,
-            Response::class,
+            PostsResponse::class,
             'array',
             [
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,

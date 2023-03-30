@@ -13,7 +13,7 @@ use Coderun\Contracts\Vk\Post\Post;
  *
  * @package Coderun\Contracts\Vk\Response
  */
-class Response implements ContractInterface
+class PostsResponse implements ContractInterface
 {
     protected int $count;
     /**
@@ -36,9 +36,9 @@ class Response implements ContractInterface
     /**
      * @param int $count
      *
-     * @return Response
+     * @return PostsResponse
      */
-    public function setCount(int $count): Response
+    public function setCount(int $count): PostsResponse
     {
         $this->count = $count;
         return $this;
@@ -57,9 +57,9 @@ class Response implements ContractInterface
     /**
      * @param array $items
      *
-     * @return Response
+     * @return PostsResponse
      */
-    public function setItems(array $items): Response
+    public function setItems(array $items): PostsResponse
     {
         $this->items = $items;
         return $this;
@@ -78,9 +78,9 @@ class Response implements ContractInterface
     /**
      * @param array $groups
      *
-     * @return Response
+     * @return PostsResponse
      */
-    public function setGroups(array $groups): Response
+    public function setGroups(array $groups): PostsResponse
     {
         $this->groups = $groups;
         return $this;

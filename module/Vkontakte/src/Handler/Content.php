@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\Handler;
 
-use Coderun\Vkontakte\Collection\ResponseMap;
+use Coderun\Vkontakte\Collection\PostsResponseMap;
 use Coderun\Vkontakte\Options\Options;
 use Coderun\Vkontakte\Service\ReceiveContent;
 use Coderun\Vkontakte\ValueObject\WallGet;
@@ -42,9 +42,9 @@ class Content
      * @throws ExceptionInterface
      * @throws VKClientException
      */
-    public function get(): ResponseMap
+    public function get(): PostsResponseMap
     {
-        $responseMap = new ResponseMap();
+        $responseMap = new PostsResponseMap();
         foreach ($this->options->getDomains() as $domain) {
             $responseMap->offsetSet($domain, $this->service->receive(new WallGet([
                 'domain' => $domain,

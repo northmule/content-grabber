@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Coderun\Contracts\Vk;
 
+use Coderun\Contracts\Utils\SortSizeTrait;
+
 /**
  * Class Photo
  *
@@ -11,6 +13,8 @@ namespace Coderun\Contracts\Vk;
  */
 class Photo implements AttachmentInterface
 {
+    use SortSizeTrait;
+    
     protected int $id;
     protected int $albumId;
     protected int $ownerId;
@@ -25,10 +29,10 @@ class Photo implements AttachmentInterface
     protected string $text;
     protected int $date;
     protected string $accessKey;
-    protected int $post_id;
+    protected int $postId;
     /** @var array<int, ImageSize> */
     protected array $sizes;
-    protected bool $has_tags;
+    protected bool $hasTags;
 
     /**
      * Get id
@@ -323,25 +327,25 @@ class Photo implements AttachmentInterface
         $this->accessKey = $accessKey;
         return $this;
     }
-
+    
     /**
-     * Get post_id
+     * Get postId
      *
      * @return int
      */
     public function getPostId(): int
     {
-        return $this->post_id;
+        return $this->postId;
     }
-
+    
     /**
-     * @param int $post_id
+     * @param int $postId
      *
      * @return Photo
      */
-    public function setPostId(int $post_id): Photo
+    public function setPostId(int $postId): Photo
     {
-        $this->post_id = $post_id;
+        $this->postId = $postId;
         return $this;
     }
 
@@ -365,43 +369,27 @@ class Photo implements AttachmentInterface
         $this->sizes = $sizes;
         return $this;
     }
-
+    
     /**
-     * Get has_tags
+     * Get hasTags
      *
      * @return bool
      */
     public function isHasTags(): bool
     {
-        return $this->has_tags;
+        return $this->hasTags;
     }
-
+    
     /**
-     * @param bool $has_tags
+     * @param bool $hasTags
      *
      * @return Photo
      */
-    public function setHasTags(bool $has_tags): Photo
+    public function setHasTags(bool $hasTags): Photo
     {
-        $this->has_tags = $has_tags;
+        $this->hasTags = $hasTags;
         return $this;
     }
 
-    /**
-     * @return array<int, ImageSize
-     */
-    public function sortedSizeInDesOrder(): array
-    {
-        $sizes = $this->sizes;
-        usort(
-            $sizes,
-            static function (ImageSize $size1, ImageSize $size2): int {
-                if ($size1->getWidth() == $size2->getWidth()) {
-                    return 0;
-                }
-                return $size1->getWidth() < $size2->getWidth() ? 1 : -1;
-            }
-        );
-        return $sizes;
-    }
+
 }

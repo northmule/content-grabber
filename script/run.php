@@ -50,16 +50,20 @@ final class GrabberRun
         $postRepository = $entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
 
         try {
-            /** @var Coderun\Contracts\Vk\Response\Response $itemMap */
+            /** @var Coderun\Contracts\Vk\Response\PostsResponse $itemMap */
             foreach ($this->getVkResponseMap() as $group => $itemMap) {
+                $postStrategy = $options->getOptions()->getStrategys()[$group] ?? null;
+                if (!$postStrategy instanceof \Coderun\WordPress\Options\Strategy) {
+                    continue;
+                }
                 foreach ($itemMap->getItems() as $item) {
-                    $param = new \Coderun\WordPress\ValueObject\Post([
+                    $paramWpPost = new \Coderun\WordPress\ValueObject\Post([
                         'title' => mb_strimwidth($item->getText(), 0, 50, '...'),
                         'content' => $templatePost->compose($item),
                         'status' => 'publish',
-                        'categories' => $options->getOptions()->getCategoryIds(),
+                        'categories' => $postStrategy->getCategoryWpIds(),
                     ]);
-                    if (empty($param->getTitle())) {
+                    if (empty($paramWpPost->getTitle())) {
                         continue;
                     }
                     $countExist = $postRepository->count(
@@ -78,7 +82,7 @@ final class GrabberRun
                     $processedPost->setDestination($options->getOptions()->getSite());
                     $entityManager->persist($processedPost);
                     
-                    $postEndpoint->create($param);
+                    $postEndpoint->create($paramWpPost);
                 }
                 $entityManager->flush();
             }
@@ -95,7 +99,7 @@ final class GrabberRun
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function getVkResponseMap(): \Coderun\Vkontakte\Collection\ResponseMap
+    protected function getVkResponseMap(): \Coderun\Vkontakte\Collection\PostsResponseMap
     {
         /** @var ContentHandler $handler */
         $handler = $this->container->get(ContentHandler::class);

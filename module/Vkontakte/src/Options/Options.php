@@ -76,24 +76,24 @@ class Options extends AbstractOptions
     }
 
     /**
-     * @param string $ownerIds
+     * @param array $ownerIds
      *
      * @return Options
      */
-    protected function setOwnerIds(string $ownerIds): Options
+    protected function setOwnerIds(array $ownerIds): Options
     {
-        $this->ownerIds = explode(',', $ownerIds);
+        $this->ownerIds = $ownerIds;
         return $this;
     }
 
     /**
-     * @param string $domains
+     * @param array $domains
      *
      * @return Options
      */
-    protected function setDomains(string $domains): Options
+    protected function setDomains(array $domains): Options
     {
-        $this->domains = explode(',', $domains);
+        $this->domains = $domains;
         return $this;
     }
 
