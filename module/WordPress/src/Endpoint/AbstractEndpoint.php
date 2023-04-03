@@ -21,7 +21,7 @@ use function str_starts_with;
  *
  * @package Coderun\WordPress\Endpoint
  */
-abstract class AbstractEndpoint
+abstract class AbstractEndpoint implements EndpointInterface
 {
     protected Client $client;
 

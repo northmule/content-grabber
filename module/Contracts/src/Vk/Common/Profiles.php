@@ -20,7 +20,7 @@ class Profiles
     protected string $screenName;
     protected string $photo50;
     protected string $photo100;
-    
+
     /**
      * Get id
      *
@@ -30,7 +30,7 @@ class Profiles
     {
         return $this->id;
     }
-    
+
     /**
      * @param int $id
      *
@@ -41,7 +41,7 @@ class Profiles
         $this->id = $id;
         return $this;
     }
-    
+
     /**
      * Get firstName
      *
@@ -51,7 +51,7 @@ class Profiles
     {
         return $this->firstName;
     }
-    
+
     /**
      * @param string $firstName
      *
@@ -62,7 +62,7 @@ class Profiles
         $this->firstName = $firstName;
         return $this;
     }
-    
+
     /**
      * Get lastName
      *
@@ -72,7 +72,7 @@ class Profiles
     {
         return $this->lastName;
     }
-    
+
     /**
      * @param string $lastName
      *
@@ -83,7 +83,7 @@ class Profiles
         $this->lastName = $lastName;
         return $this;
     }
-    
+
     /**
      * Get sex
      *
@@ -93,7 +93,7 @@ class Profiles
     {
         return $this->sex;
     }
-    
+
     /**
      * @param int $sex
      *
@@ -104,7 +104,7 @@ class Profiles
         $this->sex = $sex;
         return $this;
     }
-    
+
     /**
      * Get screenName
      *
@@ -114,7 +114,7 @@ class Profiles
     {
         return $this->screenName;
     }
-    
+
     /**
      * @param string $screenName
      *
@@ -125,7 +125,7 @@ class Profiles
         $this->screenName = $screenName;
         return $this;
     }
-    
+
     /**
      * Get photo50
      *
@@ -135,7 +135,7 @@ class Profiles
     {
         return $this->photo50;
     }
-    
+
     /**
      * @param string $photo50
      *
@@ -146,7 +146,7 @@ class Profiles
         $this->photo50 = $photo50;
         return $this;
     }
-    
+
     /**
      * Get photo100
      *
@@ -156,7 +156,7 @@ class Profiles
     {
         return $this->photo100;
     }
-    
+
     /**
      * @param string $photo100
      *
@@ -167,9 +167,4 @@ class Profiles
         $this->photo100 = $photo100;
         return $this;
     }
-    
-    
-    
-   
-    
 }

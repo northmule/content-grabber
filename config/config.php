@@ -16,6 +16,7 @@ $aggregator = new ConfigAggregator([
     Coderun\Vkontakte\ConfigProvider::class,
     Coderun\WordPress\ConfigProvider::class,
     Coderun\ORM\ConfigProvider::class,
+    Coderun\Common\ConfigProvider::class,
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
 ],$cacheConfig['config_cache_path']);
 

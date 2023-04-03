@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Coderun\WordPress\ValueObject;
 
+use Coderun\Common\Trait\ToArray;
 use Ramsey\Uuid\Uuid;
-use ReflectionClass;
 
 /**
  * Class Post
  *
  * @package Coderun\WordPress\ValueObject
  */
-class Post
+class Post implements ParamsInterface
 {
+    
+    use ToArray;
+    
     protected string $guid;
     protected string $title;
     protected string $content;
@@ -31,20 +34,6 @@ class Post
         $this->status = $data['status'] ?? 'draft';
         $this->categories = $data['categories'] ?? [];
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
-    {
-        $params = [];
-        $class = new ReflectionClass($this);
-        foreach ($class->getProperties() as $property) {
-            $params[$property->getName()] = $property->getValue($this);
-        }
-        return $params;
-    }
-
 
     /**
      * Get guid

@@ -35,7 +35,6 @@ class Content
         $this->service = $service;
     }
 
-
     /**
      * @throws VKApiBlockedException
      * @throws VKApiException

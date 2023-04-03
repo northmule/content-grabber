@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\Service;
 
-use Coderun\Contracts\Vk\Response\PostsResponse;
-use Coderun\Vkontakte\ValueObject\WallGet;
+use Coderun\Contracts\Vk\Response\CommentsResponse;
+use Coderun\Vkontakte\ValueObject\WallGetComments;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use VK\Client\VKApiClient;
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * Class ReceiveContent
  */
-class ReceiveContent
+class ReceiveComment
 {
     /** @var VKApiClient  */
     protected VKApiClient $client;
@@ -36,19 +36,19 @@ class ReceiveContent
     }
 
     /**
-     * @param WallGet $params
+     * @param WallGetComments $params
      *
-     * @return PostsResponse
+     * @return CommentsResponse
      * @throws VKApiBlockedException
      * @throws VKApiException
      * @throws VKClientException|ExceptionInterface
      */
-    public function receive(WallGet $params): PostsResponse
+    public function receive(WallGetComments $params): CommentsResponse
     {
-        $response = $this->client->wall()->get($this->accessToken, $params->toArray(true));
+        $response = $this->client->wall()->getComments($this->accessToken, $params->toArray());
         return $this->serializer->denormalize(
             $response,
-            PostsResponse::class,
+            CommentsResponse::class,
             'array',
             [
                 AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,

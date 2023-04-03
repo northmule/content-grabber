@@ -15,14 +15,13 @@ class Strategy extends AbstractOptions
 {
     /** @var string Группа ВК, должна быть настроена в ВК */
     protected string $groupVk;
-    
     /**
      * ИД категорий WP для назначения опубликованной записи
      *
      * @var array<int, int>
      */
     protected array $categoryWpIds;
-    
+
     /**
      * Get groupVk
      *
@@ -32,7 +31,7 @@ class Strategy extends AbstractOptions
     {
         return $this->groupVk;
     }
-    
+
     /**
      * Get categoryWpIds
      *
@@ -42,7 +41,7 @@ class Strategy extends AbstractOptions
     {
         return $this->categoryWpIds;
     }
-    
+
     /**
      * @param string $groupVk
      *
@@ -53,7 +52,7 @@ class Strategy extends AbstractOptions
         $this->groupVk = $groupVk;
         return $this;
     }
-    
+
     /**
      * @param array $categoryWpIds
      *
@@ -64,6 +63,4 @@ class Strategy extends AbstractOptions
         $this->categoryWpIds = $categoryWpIds;
         return $this;
     }
-    
-    
 }

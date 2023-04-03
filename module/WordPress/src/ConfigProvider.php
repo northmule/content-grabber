@@ -7,8 +7,10 @@ namespace Coderun\WordPress;
 use Coderun\WordPress\Auth\BasicAuth;
 use Coderun\WordPress\Auth\Factory\BasicAuth as BasicAuthFactory;
 use Coderun\WordPress\Endpoint\Post as PostEndpoint;
+use Coderun\WordPress\Endpoint\Comment as CommentEndpoint;
 use Coderun\WordPress\Http\Client as HttpClient;
 use Coderun\WordPress\Http\Factory\Client as HttpClientFactory;
+use Coderun\WordPress\Service\CreateComment as CreateCommentService;
 use Coderun\WordPress\Service\CreatePost as CreatePostService;
 use Coderun\WordPress\Template\Post as PostTemplate;
 use Coderun\WordPress\Template\Factory\Post as PostTemplateFactory;
@@ -43,7 +45,9 @@ class ConfigProvider
             'invokables' => [],
             'reflection' => [
                 PostEndpoint::class,
+                CommentEndpoint::class,
                 CreatePostService::class,
+                CreateCommentService::class,
             ],
             'factories'  => [
                 ModuleOptions::class => ModuleOptionsFactory::class,

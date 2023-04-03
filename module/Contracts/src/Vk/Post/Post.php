@@ -321,7 +321,7 @@ class Post implements ContractInterface
         $this->friendsOnly = $friendsOnly;
         return $this;
     }
-    
+
     /**
      * Get canPin
      *
@@ -331,7 +331,7 @@ class Post implements ContractInterface
     {
         return $this->canPin;
     }
-    
+
     /**
      * @param int $canPin
      *

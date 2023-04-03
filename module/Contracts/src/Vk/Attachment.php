@@ -14,6 +14,7 @@ class Attachment
     protected string $type;
     protected ?Photo $photo = null;
     protected ?Link $link = null;
+    protected ?Sticker $sticker = null;
 
     /**
      * Get type
@@ -77,4 +78,26 @@ class Attachment
         $this->link = $link;
         return $this;
     }
+    
+    /**
+     * Get sticker
+     *
+     * @return Sticker|null
+     */
+    public function getSticker(): ?Sticker
+    {
+        return $this->sticker;
+    }
+    
+    /**
+     * @param Sticker|null $sticker
+     *
+     * @return Attachment
+     */
+    public function setSticker(?Sticker $sticker): Attachment
+    {
+        $this->sticker = $sticker;
+        return $this;
+    }
+    
 }

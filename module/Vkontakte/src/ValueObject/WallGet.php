@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Coderun\Vkontakte\ValueObject;
 
+use Coderun\Common\Trait\ToArray;
+
 use function array_filter;
 
 /**
@@ -13,6 +15,9 @@ use function array_filter;
  */
 class WallGet
 {
+    
+    use ToArray;
+    
     /** @var string  */
     protected string $ownerId;
     /** @var string  */
@@ -34,22 +39,6 @@ class WallGet
         $this->count = (string) ($params['count'] ?? '25');
         $this->extended = (string) ($params['extended'] ?? '1');
         $this->fields = (string) ($params['fields'] ?? 'description');
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $params = [
-            'owner_id' => $this->ownerId,
-            'domain'   => $this->domain,
-            'offset'   => $this->offset,
-            'count'    => $this->count,
-            'extended' => $this->extended,
-            'fields'   => $this->fields,
-        ];
-        return array_filter($params);
     }
 
     /**

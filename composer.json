@@ -37,7 +37,8 @@
             "Coderun\\Vkontakte\\": "module/Vkontakte/src",
             "Coderun\\Contracts\\": "module/Contracts/src",
             "Coderun\\WordPress\\": "module/WordPress/src",
-            "Coderun\\ORM\\": "module/ORM/src"
+            "Coderun\\ORM\\": "module/ORM/src",
+            "Coderun\\Common\\": "module/Common/src"
         }
     },
     "config": {

@@ -11,6 +11,4 @@ $repository = \Dotenv\Repository\RepositoryBuilder::createWithNoAdapters()
 $config = require realpath(__DIR__) . '/config.php';
 $container = (new \Coderun\Container\ContainerFactory())($config);
 
-// $entityManager = $container->get(\Doctrine\ORM\EntityManager::class);
-//
 return $container;

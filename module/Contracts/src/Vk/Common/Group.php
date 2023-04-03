@@ -20,7 +20,7 @@ class Group
     protected string $photo50;
     protected string $photo100;
     protected string $photo200;
-    
+
     /**
      * Get id
      *
@@ -30,7 +30,7 @@ class Group
     {
         return $this->id;
     }
-    
+
     /**
      * @param int $id
      *
@@ -41,7 +41,7 @@ class Group
         $this->id = $id;
         return $this;
     }
-    
+
     /**
      * Get description
      *
@@ -51,7 +51,7 @@ class Group
     {
         return $this->description;
     }
-    
+
     /**
      * @param string $description
      *
@@ -62,7 +62,7 @@ class Group
         $this->description = $description;
         return $this;
     }
-    
+
     /**
      * Get name
      *
@@ -72,7 +72,7 @@ class Group
     {
         return $this->name;
     }
-    
+
     /**
      * @param string $name
      *
@@ -83,7 +83,7 @@ class Group
         $this->name = $name;
         return $this;
     }
-    
+
     /**
      * Get screenName
      *
@@ -93,7 +93,7 @@ class Group
     {
         return $this->screenName;
     }
-    
+
     /**
      * @param string $screenName
      *
@@ -104,7 +104,7 @@ class Group
         $this->screenName = $screenName;
         return $this;
     }
-    
+
     /**
      * Get isClosed
      *
@@ -114,7 +114,7 @@ class Group
     {
         return $this->isClosed;
     }
-    
+
     /**
      * @param int $isClosed
      *
@@ -125,7 +125,7 @@ class Group
         $this->isClosed = $isClosed;
         return $this;
     }
-    
+
     /**
      * Get type
      *
@@ -135,7 +135,7 @@ class Group
     {
         return $this->type;
     }
-    
+
     /**
      * @param string $type
      *
@@ -146,7 +146,7 @@ class Group
         $this->type = $type;
         return $this;
     }
-    
+
     /**
      * Get photo50
      *
@@ -156,7 +156,7 @@ class Group
     {
         return $this->photo50;
     }
-    
+
     /**
      * @param string $photo50
      *
@@ -167,7 +167,7 @@ class Group
         $this->photo50 = $photo50;
         return $this;
     }
-    
+
     /**
      * Get photo100
      *
@@ -177,7 +177,7 @@ class Group
     {
         return $this->photo100;
     }
-    
+
     /**
      * @param string $photo100
      *
@@ -188,7 +188,7 @@ class Group
         $this->photo100 = $photo100;
         return $this;
     }
-    
+
     /**
      * Get photo200
      *
@@ -198,7 +198,7 @@ class Group
     {
         return $this->photo200;
     }
-    
+
     /**
      * @param string $photo200
      *
@@ -209,5 +209,4 @@ class Group
         $this->photo200 = $photo200;
         return $this;
     }
-
 }

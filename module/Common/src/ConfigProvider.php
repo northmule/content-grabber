@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Coderun\Vkontakte;
-
-use Coderun\Vkontakte\Handler\Comment as CommentHandler;
+namespace Coderun\Common;
 
 /**
  * ConfigProvider
@@ -12,7 +10,7 @@ use Coderun\Vkontakte\Handler\Comment as CommentHandler;
 class ConfigProvider
 {
     /** @var string  */
-    public const NAME = 'vkontakte';
+    public const NAME = 'common';
     /** @var string  */
     public const CONFIG_KEY = 'config_' . self::NAME;
 
@@ -34,15 +32,8 @@ class ConfigProvider
     {
         return [
             'invokables' => [],
-            'reflection' => [
-                CommentHandler::class
-            ],
-            'factories'  => [
-                ModuleOptions::class                             => ModuleOptionsFactory::class,
-                \Coderun\Vkontakte\Service\ReceiveContent::class => \Coderun\Vkontakte\Service\Factory\ReceiveContent::class,
-                \Coderun\Vkontakte\Service\ReceiveComment::class => \Coderun\Vkontakte\Service\Factory\ReceiveComment::class,
-                \Coderun\Vkontakte\Handler\Content::class        => \Coderun\Vkontakte\Handler\Factory\Content::class,
-            ],
+            'reflection' => [],
+            'factories'  => [],
         ];
     }
 

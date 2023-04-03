@@ -6,7 +6,6 @@ namespace Coderun\WordPress\Options;
 
 use Laminas\Stdlib\AbstractOptions;
 
-
 /**
  * Class Options
  *
@@ -84,7 +83,7 @@ class Options extends AbstractOptions
     {
         return $this->cachePath;
     }
-    
+
     /**
      * Get strategys
      *
@@ -160,7 +159,7 @@ class Options extends AbstractOptions
         $this->cachePath = $cachePath;
         return $this;
     }
-    
+
     /**
      * @param array $strategys
      *
@@ -172,9 +171,7 @@ class Options extends AbstractOptions
             $strategy = new Strategy($strategy);
             $this->strategys[$strategy->getGroupVk()] = $strategy;
         }
-        
+
         return $this;
     }
-    
-    
 }

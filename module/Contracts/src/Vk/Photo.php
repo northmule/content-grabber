@@ -14,7 +14,7 @@ use Coderun\Contracts\Utils\SortSizeTrait;
 class Photo implements AttachmentInterface
 {
     use SortSizeTrait;
-    
+
     protected int $id;
     protected int $albumId;
     protected int $ownerId;
@@ -327,7 +327,7 @@ class Photo implements AttachmentInterface
         $this->accessKey = $accessKey;
         return $this;
     }
-    
+
     /**
      * Get postId
      *
@@ -337,7 +337,7 @@ class Photo implements AttachmentInterface
     {
         return $this->postId;
     }
-    
+
     /**
      * @param int $postId
      *
@@ -369,7 +369,7 @@ class Photo implements AttachmentInterface
         $this->sizes = $sizes;
         return $this;
     }
-    
+
     /**
      * Get hasTags
      *
@@ -379,7 +379,7 @@ class Photo implements AttachmentInterface
     {
         return $this->hasTags;
     }
-    
+
     /**
      * @param bool $hasTags
      *
@@ -390,6 +390,4 @@ class Photo implements AttachmentInterface
         $this->hasTags = $hasTags;
         return $this;
     }
-
-
 }

@@ -5,6 +5,10 @@
  */
 declare(strict_types=1);
 
+use Coderun\Contracts\Vk\Comment\Comment;
+use Coderun\Vkontakte\Handler\Comment as CommentHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Coderun\Vkontakte\Handler\Content as ContentHandler;
@@ -19,6 +23,7 @@ $container = require 'config/container.php';
 final class GrabberRun
 {
     protected ContainerInterface $container;
+    protected Logger $logger;
     
     /**
      * @param ContainerInterface $container
@@ -29,6 +34,12 @@ final class GrabberRun
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->logger = new Logger('run');
+        $this->logger->pushHandler(
+            new StreamHandler(
+                'data/log/run.log',
+                Logger::DEBUG)
+        );
     }
     
     /**
@@ -42,6 +53,8 @@ final class GrabberRun
         $options = $this->container->get(\Coderun\WordPress\ModuleOptions::class);
         /** @var \Coderun\WordPress\Service\CreatePost $postEndpoint */
         $postEndpoint = $this->container->get(\Coderun\WordPress\Service\CreatePost::class);
+        /** @var \Coderun\WordPress\Service\CreateComment $commentEndpoint */
+        $commentEndpoint = $this->container->get(\Coderun\WordPress\Service\CreateComment::class);
         /** @var \Coderun\WordPress\Template\Post $templatePost */
         $templatePost = $this->container->get(\Coderun\WordPress\Template\Post::class);
         /** @var \Doctrine\ORM\EntityManager $entityManager */
@@ -49,7 +62,9 @@ final class GrabberRun
         /** @var \Coderun\ORM\Repository\Common $postRepository */
         $postRepository = $entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
 
+        
         try {
+            
             /** @var Coderun\Contracts\Vk\Response\PostsResponse $itemMap */
             foreach ($this->getVkResponseMap() as $group => $itemMap) {
                 $postStrategy = $options->getOptions()->getStrategys()[$group] ?? null;
@@ -82,15 +97,36 @@ final class GrabberRun
                     $processedPost->setDestination($options->getOptions()->getSite());
                     $entityManager->persist($processedPost);
                     
-                    $postEndpoint->create($paramWpPost);
+                    $wpPost = $postEndpoint->create($paramWpPost);
+                    $postId = $wpPost['id'];
+                    
+                    $comments = $this->getVKCommentsResponseMap($item->getOwnerId(), $item->getId());
+                    if ($comments->count() === 0) {
+                        continue;
+                    }
+                    /** @var Comment $comment */
+                    foreach ($comments as $comment) {
+                        if (empty($comment->getText())) {
+                            continue;
+                        }
+                        $paramWpComment = new \Coderun\WordPress\ValueObject\Comment([
+                            'author_name' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+                            'content' => $comment->getText(),
+                            'post' => $postId,
+                            'author_email' => 'jora@mail.ru',
+                        ]);
+                        $result = $commentEndpoint->create($paramWpComment);
+                    }
+                   
                 }
                 $entityManager->flush();
             }
             return;
         } catch (Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
             throw $e;
         } finally {
-        
+            echo PHP_EOL.'script finish'.PHP_EOL;
         }
         
     }
@@ -104,6 +140,13 @@ final class GrabberRun
         /** @var ContentHandler $handler */
         $handler = $this->container->get(ContentHandler::class);
         return $handler->get();
+    }
+    
+    protected function getVKCommentsResponseMap(int $ownerId, int $postId): \Coderun\Vkontakte\Collection\CommentsResponseMap
+    {
+        /** @var CommentHandler $handler */
+        $handler = $this->container->get(CommentHandler::class);
+        return $handler->get(ownerId: $ownerId, postId: $postId);
     }
     
 }

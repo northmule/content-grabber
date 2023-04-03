@@ -19,7 +19,6 @@ class Comment implements ContractInterface
 {
     protected int $id;
     protected int $fromId;
-    
     protected int $date;
     protected string $text;
     protected int $replyToUser;
@@ -29,7 +28,7 @@ class Comment implements ContractInterface
     protected array $parentsStack;
     /** @var array<int, Profiles */
     protected array $profiles;
-    
+
     /**
      * Get id
      *
@@ -39,7 +38,7 @@ class Comment implements ContractInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @param int $id
      *
@@ -50,7 +49,7 @@ class Comment implements ContractInterface
         $this->id = $id;
         return $this;
     }
-    
+
     /**
      * Get fromId
      *
@@ -60,7 +59,7 @@ class Comment implements ContractInterface
     {
         return $this->fromId;
     }
-    
+
     /**
      * @param int $fromId
      *
@@ -71,7 +70,7 @@ class Comment implements ContractInterface
         $this->fromId = $fromId;
         return $this;
     }
-    
+
     /**
      * Get date
      *
@@ -81,7 +80,7 @@ class Comment implements ContractInterface
     {
         return $this->date;
     }
-    
+
     /**
      * @param int $date
      *
@@ -92,7 +91,7 @@ class Comment implements ContractInterface
         $this->date = $date;
         return $this;
     }
-    
+
     /**
      * Get text
      *
@@ -102,7 +101,7 @@ class Comment implements ContractInterface
     {
         return $this->text;
     }
-    
+
     /**
      * @param string $text
      *
@@ -113,7 +112,7 @@ class Comment implements ContractInterface
         $this->text = $text;
         return $this;
     }
-    
+
     /**
      * Get replyToUser
      *
@@ -123,7 +122,7 @@ class Comment implements ContractInterface
     {
         return $this->replyToUser;
     }
-    
+
     /**
      * @param int $replyToUser
      *
@@ -134,7 +133,7 @@ class Comment implements ContractInterface
         $this->replyToUser = $replyToUser;
         return $this;
     }
-    
+
     /**
      * Get replyToComment
      *
@@ -144,7 +143,7 @@ class Comment implements ContractInterface
     {
         return $this->replyToComment;
     }
-    
+
     /**
      * @param int $replyToComment
      *
@@ -155,7 +154,7 @@ class Comment implements ContractInterface
         $this->replyToComment = $replyToComment;
         return $this;
     }
-    
+
     /**
      * Get attachments
      *
@@ -165,7 +164,7 @@ class Comment implements ContractInterface
     {
         return $this->attachments;
     }
-    
+
     /**
      * @param array $attachments
      *
@@ -176,7 +175,7 @@ class Comment implements ContractInterface
         $this->attachments = $attachments;
         return $this;
     }
-    
+
     /**
      * Get parentsStack
      *
@@ -186,7 +185,7 @@ class Comment implements ContractInterface
     {
         return $this->parentsStack;
     }
-    
+
     /**
      * @param array $parentsStack
      *
@@ -197,7 +196,7 @@ class Comment implements ContractInterface
         $this->parentsStack = $parentsStack;
         return $this;
     }
-    
+
     /**
      * Get profiles
      *
@@ -207,7 +206,7 @@ class Comment implements ContractInterface
     {
         return $this->profiles;
     }
-    
+
     /**
      * @param array $profiles
      *
@@ -218,6 +217,4 @@ class Comment implements ContractInterface
         $this->profiles = $profiles;
         return $this;
     }
-    
-    
 }
