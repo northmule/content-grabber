@@ -12,6 +12,11 @@ return [
     ],
     \Coderun\WordPress\ConfigProvider::NAME => [
         // Настройки распределения сообщений в WordPress
-        'strategys' => [],
+        'strategys' => [
+            [
+                'group_vk' => '', // совпадает с domains или owner_ids
+                'category_wp_ids' => [3,4,5],// ИД категорий WP
+            ],
+        ],
     ],
 ];
