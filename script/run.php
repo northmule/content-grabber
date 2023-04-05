@@ -62,9 +62,7 @@ final class GrabberRun
         /** @var \Coderun\ORM\Repository\Common $postRepository */
         $postRepository = $entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
 
-        
         try {
-            
             /** @var Coderun\Contracts\Vk\Response\PostsResponse $itemMap */
             foreach ($this->getVkResponseMap() as $group => $itemMap) {
                 $postStrategy = $options->getOptions()->getStrategys()[$group] ?? null;
@@ -74,7 +72,7 @@ final class GrabberRun
                 foreach ($itemMap->getItems() as $item) {
                     $paramWpPost = new \Coderun\WordPress\ValueObject\Post([
                         'title' => mb_strimwidth($item->getText(), 0, 50, '...'),
-                        'content' => $templatePost->compose($item),
+                        'content' => $templatePost->compose($item, $itemMap->getFirstGroup()),
                         'status' => 'publish',
                         'categories' => $postStrategy->getCategoryWpIds(),
                     ]);
@@ -115,7 +113,7 @@ final class GrabberRun
                             'post' => $postId,
                             'author_email' => 'jora@mail.ru',
                         ]);
-                        $result = $commentEndpoint->create($paramWpComment);
+                        $commentEndpoint->create($paramWpComment);
                     }
                    
                 }

@@ -85,4 +85,12 @@ class PostsResponse implements ContractInterface
         $this->groups = $groups;
         return $this;
     }
+    
+    /**
+     * @return Group|null
+     */
+    public function getFirstGroup(): ?Group
+    {
+        return $this->getGroups()[0] ?? null;
+    }
 }
