@@ -12,7 +12,7 @@ use VK\Client\VKApiClient;
 use VK\Exceptions\Api\VKApiBlockedException;
 use VK\Exceptions\VKApiException;
 use VK\Exceptions\VKClientException;
-use Symfony\Component\Serializer\Serializer;
+use Coderun\Common\Service\Serializer;
 
 /**
  * Class ReceiveContent
@@ -49,10 +49,6 @@ class ReceiveContent
         return $this->serializer->denormalize(
             $response,
             PostsResponse::class,
-            'array',
-            [
-                AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
-            ]
         );
     }
 }

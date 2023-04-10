@@ -33,7 +33,9 @@ class ConfigProvider
         return [
             'invokables' => [],
             'reflection' => [],
-            'factories'  => [],
+            'factories'  => [
+                \Coderun\Common\Service\Serializer::class => \Coderun\Common\Service\Factory\Serializer::class,
+            ],
         ];
     }
 

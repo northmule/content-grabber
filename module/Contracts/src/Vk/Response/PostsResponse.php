@@ -47,7 +47,7 @@ class PostsResponse implements ContractInterface
     /**
      * Get items
      *
-     * @return array
+     * @return array<int, Post>
      */
     public function getItems(): array
     {

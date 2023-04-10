@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Coderun\ORM\Entity;
 
 use Coderun\ORM\Repository\Common;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\Common\Collections\Collection;
 
 #[
     Entity(repositoryClass: Common::class),
@@ -30,22 +33,30 @@ class ProcessedPost implements EntityInterface
 {
     use CommonFields;
 
-    /**
-     * Идентификатор назначения (домен wp например)
-     */
-    #[Column(name:'destination', type: Types::STRING, nullable:true)]
+    #[Column(name:'destination', type: Types::STRING, nullable:true, options: ['comment' => 'Идентификатор назначения (домен wp например)'])]
     protected string $destination;
-    /**
-     * Идентификатор записи из источника (ID запис VK)
-     */
-    #[Column(name:'source_item_id', type: Types::STRING, nullable:true)]
+    #[Column(name:'source_item_id', type: Types::STRING, nullable:true, options: ['comment' => 'Идентификатор записи из источника (ID запис VK)'])]
     protected string $sourceItemId;
-    /**
-     * Идентификатор источника(ИД группы\domain VK)
-     */
-    #[Column(name:'source', type: Types::STRING, nullable:true)]
+    #[Column(name:'source', type: Types::STRING, nullable:true, options: ['comment' => 'Идентификатор источника(ИД группы\domain VK)'])]
     protected string $source;
-
+    
+    /** @var Collection<int, ProcessedComment> */
+    #[
+        OneToMany(mappedBy: 'post', targetEntity: ProcessedComment::class, fetch: 'LAZY'),
+    ]
+    protected Collection $comments;
+    #[Column(name: 'wordpress_post_id', type: Types::INTEGER, nullable: true, options: ['comment' => 'ID созданной записи в WordPress'])]
+    protected ?int $wordpressPostId = null;
+    
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+    
+    
     /**
      * Get destination
      *
@@ -108,4 +119,47 @@ class ProcessedPost implements EntityInterface
         $this->source = $source;
         return $this;
     }
+    
+    /**
+     * Get comments
+     *
+     * @return Collection
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+    
+    /**
+     * @param Collection $comments
+     *
+     * @return ProcessedPost
+     */
+    public function setComments(Collection $comments): ProcessedPost
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+    
+    /**
+     * Get wordpressPostId
+     *
+     * @return int|null
+     */
+    public function getWordpressPostId(): ?int
+    {
+        return $this->wordpressPostId;
+    }
+    
+    /**
+     * @param int|null $wordpressPostId
+     *
+     * @return ProcessedPost
+     */
+    public function setWordpressPostId(?int $wordpressPostId): ProcessedPost
+    {
+        $this->wordpressPostId = $wordpressPostId;
+        return $this;
+    }
+
 }

@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": ">=8.1",
+        "ext-mbstring": "*",
         "google/apiclient": "^2.7",
         "symfony/dependency-injection": "^5.4",
         "vlucas/phpdotenv": "^5.5",
@@ -29,7 +30,8 @@
         "twig/twig": "^3.0",
         "doctrine/doctrine-orm-module": "^5.3",
         "roave/psr-container-doctrine": "^3.9",
-        "doctrine/migrations": "^3.6"
+        "doctrine/migrations": "^3.6",
+        "doctrine/dbal": "^3.6"
     },
     "autoload": {
         "psr-4": {

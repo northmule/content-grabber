@@ -7,15 +7,6 @@ namespace Coderun\Vkontakte\Service\Factory;
 use Coderun\Vkontakte\ModuleOptions;
 use Coderun\Vkontakte\Service\ReceiveContent as ReceiveContentService;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
-use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
-use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use VK\Client\VKApiClient;
 
 /**
@@ -41,25 +32,7 @@ class ReceiveContent
         /** @var ModuleOptions $config */
         $config = $container->get(ModuleOptions::class);
         $client = new VKApiClient($config->getOptions()->getApiVersion());
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader());
-        $reflectionExtractor = new ReflectionExtractor();
-        $phpDocExtractor = new PhpDocExtractor();
-        $propertyTypeExtractor = new PropertyInfoExtractor(
-            [$reflectionExtractor],
-            [$phpDocExtractor, $reflectionExtractor],
-            [$phpDocExtractor],
-            [$reflectionExtractor],
-            [$reflectionExtractor]
-        );
-
-        $normalizer = new ObjectNormalizer(
-            $classMetadataFactory,
-            new CamelCaseToSnakeCaseNameConverter(),
-            null,
-            $propertyTypeExtractor
-        );
-        $arrayNormalizer = new ArrayDenormalizer();
-        $serializer = new Serializer([$arrayNormalizer, $normalizer]);
+        $serializer = $container->get(\Coderun\Common\Service\Serializer::class);
         return new ReceiveContentService($config->getOptions()->getAccessToken(), $client, $serializer);
     }
 }

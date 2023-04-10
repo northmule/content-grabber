@@ -6,6 +6,7 @@
 declare(strict_types=1);
 
 use Coderun\Contracts\Vk\Comment\Comment;
+use Coderun\Contracts\Vk\Post\Post;
 use Coderun\Vkontakte\Handler\Comment as CommentHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -24,6 +25,7 @@ final class GrabberRun
 {
     protected ContainerInterface $container;
     protected Logger $logger;
+    protected \Doctrine\ORM\EntityManager $entityManager;
     
     /**
      * @param ContainerInterface $container
@@ -35,6 +37,8 @@ final class GrabberRun
     {
         $this->container = $container;
         $this->logger = new Logger('run');
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $this->entityManager = $this->container->get(\Doctrine\ORM\EntityManager::class);
         $this->logger->pushHandler(
             new StreamHandler(
                 'data/log/run.log',
@@ -53,14 +57,10 @@ final class GrabberRun
         $options = $this->container->get(\Coderun\WordPress\ModuleOptions::class);
         /** @var \Coderun\WordPress\Service\CreatePost $postEndpoint */
         $postEndpoint = $this->container->get(\Coderun\WordPress\Service\CreatePost::class);
-        /** @var \Coderun\WordPress\Service\CreateComment $commentEndpoint */
-        $commentEndpoint = $this->container->get(\Coderun\WordPress\Service\CreateComment::class);
         /** @var \Coderun\WordPress\Template\Post $templatePost */
         $templatePost = $this->container->get(\Coderun\WordPress\Template\Post::class);
-        /** @var \Doctrine\ORM\EntityManager $entityManager */
-        $entityManager = $this->container->get(\Doctrine\ORM\EntityManager::class);
         /** @var \Coderun\ORM\Repository\Common $postRepository */
-        $postRepository = $entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
+        $postRepository = $this->entityManager->getRepository(\Coderun\ORM\Entity\ProcessedPost::class);
 
         try {
             /** @var Coderun\Contracts\Vk\Response\PostsResponse $itemMap */
@@ -79,49 +79,40 @@ final class GrabberRun
                     if (empty($paramWpPost->getTitle())) {
                         continue;
                     }
-                    $countExist = $postRepository->count(
+                    $postEntity = $postRepository->findOneBy(
                         [
                             'source' => $group,
                             'sourceItemId' => $item->getId(),
                             'destination' => $options->getOptions()->getSite(),
                         ]
                     );
-                    if ($countExist !== 0) {
+                    
+                    if ($postEntity instanceof \Coderun\ORM\Entity\ProcessedPost) {
+                        if ($postEntity->getWordpressPostId() != null) {
+                            usleep(1200000); // VK "Too many requests per second"
+                            $this->processComments($postEntity->getWordpressPostId(), $item, $postEntity);
+                        }
                         continue;
                     }
+                    /** @var \Coderun\Contracts\WordPress\Post\Post $wpPost */
+                    $wpPost = $postEndpoint->create($paramWpPost);
+                    
                     $processedPost = new \Coderun\ORM\Entity\ProcessedPost();
                     $processedPost->setSource((string)$group);
                     $processedPost->setSourceItemId((string)$item->getId());
                     $processedPost->setDestination($options->getOptions()->getSite());
-                    $entityManager->persist($processedPost);
+                    $processedPost->setWordpressPostId($wpPost->getId());
+                    $this->entityManager->persist($processedPost);
                     
-                    $wpPost = $postEndpoint->create($paramWpPost);
-                    $postId = $wpPost['id'];
-                    
-                    $comments = $this->getVKCommentsResponseMap($item->getOwnerId(), $item->getId());
-                    if ($comments->count() === 0) {
-                        continue;
-                    }
-                    /** @var Comment $comment */
-                    foreach ($comments as $comment) {
-                        if (empty($comment->getText())) {
-                            continue;
-                        }
-                        $paramWpComment = new \Coderun\WordPress\ValueObject\Comment([
-                            'author_name' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
-                            'content' => $comment->getText(),
-                            'post' => $postId,
-                            'author_email' => 'jora@mail.ru',
-                        ]);
-                        $commentEndpoint->create($paramWpComment);
-                    }
+                    $this->processComments($wpPost->getId(), $item, $processedPost);
                    
                 }
-                $entityManager->flush();
+                $this->entityManager->flush();
             }
             return;
         } catch (Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
+            $this->entityManager->flush();
             throw $e;
         } finally {
             echo PHP_EOL.'script finish'.PHP_EOL;
@@ -145,6 +136,66 @@ final class GrabberRun
         /** @var CommentHandler $handler */
         $handler = $this->container->get(CommentHandler::class);
         return $handler->get(ownerId: $ownerId, postId: $postId);
+    }
+    
+    /**
+     * Добавляет комментарии к WP записи из комментариев ВК
+     *
+     * @param int                               $wpPostId
+     * @param Post                              $vkPost
+     * @param \Coderun\ORM\Entity\ProcessedPost $postEntity
+     *
+     * @return void
+     * @throws NotFoundExceptionInterface
+     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    protected function processComments(int $wpPostId, Post $vkPost, \Coderun\ORM\Entity\ProcessedPost $postEntity)
+    {
+        /** @var \Coderun\WordPress\Service\CreateComment $commentEndpoint */
+        $commentEndpoint = $this->container->get(
+            \Coderun\WordPress\Service\CreateComment::class
+        );
+        /** @var \Coderun\ORM\Repository\Common $postRepository */
+        $commentRepository = $this->entityManager->getRepository(\Coderun\ORM\Entity\ProcessedComment::class);
+        $comments = $this->getVKCommentsResponseMap(
+            $vkPost->getOwnerId(), $vkPost->getId()
+        );
+        if ($comments->count() === 0) {
+            return;
+        }
+        /** @var Comment $comment */
+        foreach ($comments as $comment) {
+            if (empty($comment->getText())) {
+                continue;
+            }
+            
+            $commentEntity = $postEntity->getComments()->filter(
+                static function (\Coderun\ORM\Entity\ProcessedComment $commentEntity) use ($comment)
+                {
+                    return intval($commentEntity->getSourceItemId()) === $comment->getId();
+                }
+            )->first();
+            
+            if ($commentEntity instanceof \Coderun\ORM\Entity\ProcessedComment) {
+                continue;
+            }
+            
+            $paramWpComment = new \Coderun\WordPress\ValueObject\Comment([
+                'author_name' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'content' => $comment->getText(),
+                'post' => $wpPostId,
+                'author_email' => 'jora@mail.ru',
+            ]);
+            /** @var \Coderun\Contracts\WordPress\Comment\Comment $wpComment */
+            $wpComment = $commentEndpoint->create($paramWpComment);
+            
+            $commentEntityNew = new \Coderun\ORM\Entity\ProcessedComment();
+            $commentEntityNew->setSourceItemId(strval($comment->getId()));
+            $commentEntityNew->setPost($postEntity);
+            $this->entityManager->persist($commentEntityNew);
+        }
     }
     
 }
