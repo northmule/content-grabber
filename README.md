@@ -4,6 +4,7 @@ Grabber of content from various sources
 **Забрать записи из Групп ВК и "запостить" на сайт под управлением WordPress**
  - Настроить .env
  - Настроить config/autoload/grabber.global.php
+ - Применить миграции php bin/doctrine.php migrations:migrate
  - Запустить script/run.php
 
 **Возможности**
